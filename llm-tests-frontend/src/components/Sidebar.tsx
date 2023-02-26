@@ -38,7 +38,7 @@ const footerStyle: React.CSSProperties = {
 
 interface Props {
   tests: Test[];
-  setActiveTest: (testIndex: number | null) => void;
+  setActiveTest: (testIndex: number | undefined) => void;
   runAllTests: () => void;
   setState: (state: string) => void;
 }
@@ -61,15 +61,15 @@ export default function Sidebar({
               message={`#${i} ${test.name}`}
               key={test.name}
               type={
-                test.judgement.status === "passed"
+                test.judgement?.status === "passed"
                   ? "success"
-                  : test.judgement.status === "failed"
+                  : test.judgement?.status === "failed"
                   ? "error"
                   : "info"
               }
-              status={test.judgement.status}
+              status={test.judgement?.status}
               onClick={() => setActiveTest(i)}
-              showIcon={test.judgement.status !== "not run"}
+              showIcon={test.judgement?.status !== "not run"}
             ></Entry>
           ))}
         </Content>
@@ -78,7 +78,7 @@ export default function Sidebar({
             <Button
               onClick={() => {
                 setState("prompt");
-                setActiveTest(null);
+                setActiveTest(undefined);
               }}
             >
               Prompt
@@ -86,7 +86,7 @@ export default function Sidebar({
             <Button
               onClick={() => {
                 setState("newTest");
-                setActiveTest(null);
+                setActiveTest(undefined);
               }}
             >
               New test

@@ -6,10 +6,10 @@ export type Prompt = {
 //export type Requirement = string;
 
 export type Judgement = {
-  status: "passed" | "failed" | null;
+  status: "passed" | "failed" | "error" | null;
   text: string;
-  requirements: string[];
-  improvements: string[];
+  requirements?: string[];
+  improvements?: string[];
 };
 
 export interface Test {

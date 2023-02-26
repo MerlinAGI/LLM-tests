@@ -16,7 +16,7 @@ export default async function handler(
   res: NextApiResponse<Data>
 ) {
   try {
-    console.log("incoming:", req.body, typeof req.body);
+    //console.log("incoming:", req.body, typeof req.body);
     const data = typeof req.body === "string" ? JSON.parse(req.body) : req.body;
     const prompt = data.prompt;
     const completion = await openai.createCompletion({
@@ -26,6 +26,7 @@ export default async function handler(
       stop: ["\n", "\\", " Human:", " AI:"],
       temperature: 0,
     });
+    console.log("completion:", completion.data.choices);
 
     res.status(200).json({ text: completion.data.choices[0].text });
   } catch (error) {

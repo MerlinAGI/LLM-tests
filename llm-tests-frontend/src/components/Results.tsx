@@ -13,13 +13,14 @@ const Wrapper = styled.div`
 `;
 
 export default function Results({ test }: Props) {
+  console.log("RESULTS", test);
   return (
     <Wrapper>
       <h1>Test {test.name}</h1>
       <Space direction="vertical">
-        {test.judgement.status === "passed" ? (
+        {test.judgement?.status === "passed" ? (
           <Alert message="Status: test passed" type="success" />
-        ) : test.judgement.status === "failed" ? (
+        ) : test.judgement?.status === "failed" ? (
           <Alert message="Status: test failed" type="error" />
         ) : (
           <Alert message="Status: not run" />
@@ -49,7 +50,7 @@ export default function Results({ test }: Props) {
           {test.completion}
         </Card>
         <Button type="primary" onClick={() => null}>
-          {test.judgement.status !== null ? "Run again" : "Run"}
+          {test.judgement?.status !== null ? "Run again" : "Run"}
         </Button>
       </Space>
     </Wrapper>

@@ -7,6 +7,7 @@ import Sidebar from "@/components/Sidebar";
 import { Layout, Space } from "antd";
 import { Test } from "@/utils/types";
 import Prompt from "@/components/Prompt";
+import { initialTests, judgementPrompt, shopingAssistentPrompt } from "@/utils/data";
 
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -26,13 +27,19 @@ const footerStyle: React.CSSProperties = {
   backgroundColor: "#7dbcea",
 };
 
-const runTest = async (test: Test) => {
+
+const runTest = async (test: Test, updateTest: (newTest: Test) => void) => {
   // replace {{variable}} with the value of the variable
   const formattedPrompt = test.prompt.text.replace(
     /{{(\w+)}}/g, // regex to match {{variable}}
     (_, variable) => {
-      console.log("replace:", _, variable);
-      return test.values[variable.trim()];
+      let val = test.values[variable.trim()];
+      if(variable.trim() === "history") {
+        if (!val.endsWith("\nBOT:")){
+          val += "\nBOT: ";
+        }
+      }
+      return val;
     }
   );
   // call next.js api /get_output
@@ -47,51 +54,73 @@ const runTest = async (test: Test) => {
   });
   const completion = (await res.json()).text;
   console.log("completion:", completion);
+  updateTest({...test, completion });
+
+  const newHistory = test.values.history + "\nBOT: " + completion;
+  // judge the test
+  const replaceDict = {
+    history: newHistory,
+    requirements: test.requirements,
+  } as Record<string, string>;
+
+  const judgementPromptFormatted = judgementPrompt.replace(
+    /{{(\w+)}}/g, // regex to match {{variable}}
+    (_, variable) => {
+      return replaceDict[variable.trim()];
+    }
+  );
+  console.log("judgementPromptFormatted:", JSON.stringify(judgementPromptFormatted));
+  const res2 = await fetch("/api/judgement", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      prompt: judgementPromptFormatted,
+    }),
+  });
+  const judgementText = (await res2.json()).text;
+  console.log("judgementText:", judgementText);
+  let status = "error" as "error" | "failed" | "passed";
+  if (judgementText.includes("SATISFY ALL REQUIREMENTS: NO")) {
+    status = "failed";
+  } else if (judgementText.includes("SATISFY ALL REQUIREMENTS: YES")) {
+    status = "passed";
+  }
+  updateTest({
+    ...test,
+    completion,
+    judgement: {
+      status: status,
+      text: judgementText,
+    }
+  });
 };
 
 export default function Home() {
-  const [tests, setTests] = useState<Test[]>([]);
-  const [activeTest, setActiveTest] = useState<number | null>(null);
-  const [prompt, setPrompt] = useState<string>(`INTRO
-  Your name is Merlin the shopping assistant, assisting a user to find the right product.
-  Your goal is to find out what a user is looking for.
-  Go step by step, to find the user's preferences. Ask only one question at a time. You do not need to find out preferences for all criteria. If the user is not sure about what they need, give a short overview of the available options. Split up our response into multiple messages by using
-  MERLIN: <message part 1>. MERLIN <message part2>...
-  
-  For buying a monitor you want to find out the user preferences for the following things:
-  - Budget 
-  - Screen Size
-  - Monitor Resolution
-  - Resolution Standard
-  - Panel type
-  - Refresh Rate
-  - Response Time
-  - Connectivity
-  
-  CONTEXT:
-  
-  
-  Example:
-  USER: I want to buy a gaming monitor
-  MERLIN: For gaming a recommend a screen size of 24 inches. MERLIN: What is your budget?
-  
-  ---------------------
-  
-  
-  HISTORY:
-  MERLIN: Hello, your personal shopping assistant. What can I help you with?`);
+  const [tests, setTests] = useState<Test[]>(initialTests);
+  const [activeTest, setActiveTest] = useState<number | undefined>();
+  const [prompt, setPrompt] = useState<string>(shopingAssistentPrompt.text);
   const [state, setState] = useState<string>("prompt");
   console.log(tests);
-  console.log(activeTest);
+  console.log("activeTest:", activeTest);
 
-  const runAllTests = () => {
-    tests.forEach(runTest);
+  const updateTest = (idx:number) => (newTest: Test) => {
+    setTests((prev) => {
+      const newTests = [...prev];
+      newTests[idx] = newTest;
+      return newTests;
+    });
   };
 
+
   const componentToShow = () => {
+    console.log("state:", state);
+    console.log("activeTest:", activeTest);
     if (state === "prompt") {
       return <Prompt prompt={prompt} setPrompt={setPrompt} />;
-    } else if (activeTest !== null) {
+    } else if (activeTest !== undefined) {
+      console.log(tests[activeTest]);
       return <Results test={tests[activeTest]} />;
     }
     if (state === "newTest") {
@@ -103,12 +132,19 @@ export default function Home() {
     }
   };
 
+  const runAllTests = () => {
+    tests.forEach((t, i) => runTest(t, updateTest(i)));
+  }
+
   return (
     <Layout>
       <Sider style={siderStyle}>
         <Sidebar
           tests={tests}
-          setActiveTest={setActiveTest}
+          setActiveTest={(i) => {
+            setState("results");
+            setActiveTest(i);
+          }}
           runAllTests={runAllTests}
           setState={setState}
         />

@@ -16,15 +16,30 @@ export default async function handler(
   res: NextApiResponse<Data>
 ) {
   try {
-    const prompt = JSON.parse(req.body).prompt;
+    const data = typeof req.body === "string" ? JSON.parse(req.body) : req.body;
+    const prompt = data.prompt;
     const completion = await openai.createCompletion({
       model: "text-davinci-003",
       prompt: prompt,
-      max_tokens: 100,
-      stop: ["JUDGEMENT", "#"],
+      max_tokens: 200,
+      stop: "STOP",
       temperature: 0,
     });
-
+    // const r = await fetch("https://api.openai.com/v1/completions",
+    //   {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
+    //     },
+    //     body: JSON.stringify({
+    //       model: "text-davinci-003",
+    //       prompt: prompt,
+    //       max_tokens: 200,
+    //     })
+    //   }
+    // );
+    // const completion = await r.json();
     res.status(200).json({ text: completion.data.choices[0].text });
   } catch (error) {
     console.log(error);
