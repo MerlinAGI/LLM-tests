@@ -7,10 +7,10 @@ import NewTest from "@/components/NewTest";
 import Results from "@/components/Results";
 import { useState } from "react";
 import Sidebar from "@/components/Sidebar";
-// import { Layout, Space } from "antd";
+import { Layout, Space } from "antd";
 // import "antd/dist/reset.css";
 
-// const { Header, Footer, Sider, Content } = Layout;
+const { Header, Footer, Sider, Content } = Layout;
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -52,38 +52,13 @@ const LeftWrapper = styled.div`
   width: 50%;
 `;
 
-const Wrapper = styled.div`
-  display: flex;
-`;
-
-const headerStyle: React.CSSProperties = {
-  textAlign: "center",
-  color: "#fff",
-  height: 64,
-  paddingInline: 50,
-  lineHeight: "64px",
-  backgroundColor: "#7dbcea",
-};
-
 const contentStyle: React.CSSProperties = {
-  textAlign: "center",
-  minHeight: 120,
-  lineHeight: "120px",
-  color: "#fff",
-  backgroundColor: "#108ee9",
+  padding: "16px",
 };
 
 const siderStyle: React.CSSProperties = {
-  textAlign: "center",
-  lineHeight: "120px",
-  color: "#fff",
-  backgroundColor: "#3ba0e9",
-};
-
-const footerStyle: React.CSSProperties = {
-  textAlign: "center",
-  color: "#fff",
-  backgroundColor: "#7dbcea",
+  background: "#fff",
+  height: "100%",
 };
 
 export interface Test {
@@ -100,50 +75,19 @@ export default function Home() {
   console.log(tests);
   console.log(activeTest);
   return (
-    <Wrapper>
-      <Sidebar tests={tests} setActiveTest={setActiveTest} />
-      {activeTest !== undefined ? (
-        <Results test={tests[activeTest]} />
-      ) : (
-        <NewTest
-          addTest={(test: Test) => setTests((prev) => [...prev, test])}
-        />
-      )}
-    </Wrapper>
+    <Layout>
+      <Sider style={siderStyle}>
+        <Sidebar tests={tests} setActiveTest={setActiveTest} />
+      </Sider>
+      <Content style={contentStyle}>
+        {activeTest !== undefined ? (
+          <Results test={tests[activeTest]} />
+        ) : (
+          <NewTest
+            addTest={(test: Test) => setTests((prev) => [...prev, test])}
+          />
+        )}
+      </Content>
+    </Layout>
   );
-}
-
-{
-  /* <Space direction="vertical" style={{ width: '100%' }} size={[0, 48]}>
-<Layout>
-  <Header style={headerStyle}>Header</Header>
-  <Content style={contentStyle}>Content</Content>
-  <Footer style={footerStyle}>Footer</Footer>
-</Layout>
-<Layout>
-  <Header style={headerStyle}>Header</Header>
-  <Layout>
-    <Sider style={siderStyle}>Sider</Sider>
-    <Content style={contentStyle}>Content</Content>
-  </Layout>
-  <Footer style={footerStyle}>Footer</Footer>
-</Layout>
-<Layout>
-  <Header style={headerStyle}>Header</Header>
-  <Layout>
-    <Content style={contentStyle}>Content</Content>
-    <Sider style={siderStyle}>Sider</Sider>
-  </Layout>
-  <Footer style={footerStyle}>Footer</Footer>
-</Layout>
-<Layout>
-  <Sider style={siderStyle}>Sider</Sider>
-  <Layout>
-    <Header style={headerStyle}>Header</Header>
-    <Content style={contentStyle}>Content</Content>
-    <Footer style={footerStyle}>Footer</Footer>
-  </Layout>
-</Layout>
-</Space>
-); */
 }
