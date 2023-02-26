@@ -69,7 +69,7 @@ export default async function handler(
     HISTORY`;
 
     const generation = await generate.generate({
-      deploymentName: "merlin2",
+      deploymentName: "merlin-gen-tests",
       requests: [{ inputValues: { input: promptToSend } }],
     });
     // const completion = await openai.createCompletion({
