@@ -8,7 +8,7 @@ import Results from "@/components/Results";
 import { useState } from "react";
 import Sidebar from "@/components/Sidebar";
 import { Layout, Space } from "antd";
-// import "antd/dist/reset.css";
+import { Test } from "@/utils/types";
 
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -60,14 +60,6 @@ const siderStyle: React.CSSProperties = {
   background: "#fff",
   height: "100%",
 };
-
-export interface Test {
-  name: string;
-  history: string;
-  example: string;
-  output: string | null;
-  status: "passed" | "failed" | null;
-}
 
 export default function Home() {
   const [tests, setTests] = useState<Test[]>([]);

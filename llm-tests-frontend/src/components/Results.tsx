@@ -1,4 +1,4 @@
-import type { Test } from "../pages/index";
+import { Test } from "@/utils/types";
 import styled from "@emotion/styled";
 
 interface Props {
@@ -10,21 +10,23 @@ const Wrapper = styled.div`
   flex-direction: column;
 `;
 
+
+
 export default function Results({ test }: Props) {
   return (
     <Wrapper>
       <h1>Test {test.name}</h1>
-      <p>Status: {!test.status ? "Not run" : test.status}</p>
+      <p>Status: {!test.judgement ? "Not run" : test.judgement.status}</p>
       <p>History:</p>
-      {test.history}
+      {test.values.history}
       <br />
       <br />
-      <p>Target output:</p>
-      {test.example}
+      <p>Requirements:</p>
+      {test.requirements}
       <br />
       <br />
-      <p>Model output:</p>
-      {test.output}
+      <p>Completion:</p>
+      {test.completion}
       <button onClick={() => null}>Run</button>
     </Wrapper>
   );
