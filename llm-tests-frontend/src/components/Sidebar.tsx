@@ -78,7 +78,6 @@ export default function Sidebar({
             <Button
               onClick={() => {
                 setState("prompt");
-                setActiveTest(undefined);
               }}
             >
               Prompt
@@ -86,7 +85,6 @@ export default function Sidebar({
             <Button
               onClick={() => {
                 setState("newTest");
-                setActiveTest(undefined);
               }}
             >
               New test
