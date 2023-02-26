@@ -133,8 +133,8 @@ export default function Home() {
       );
     }
     if (activeTest !== undefined) {
-      console.log(tests[activeTest]);
-      return <Results test={tests[activeTest]} />;
+      const runTestFunc = () => runTest(tests[activeTest], updateTest(activeTest));
+      return <Results test={tests[activeTest]} runTest={runTestFunc}/>;
     }
   };
 

@@ -4,6 +4,7 @@ import { Button, Alert, Card, Space } from "antd";
 
 interface Props {
   test: Test;
+  runTest: () => void;
 }
 
 const Wrapper = styled.div`
@@ -12,7 +13,7 @@ const Wrapper = styled.div`
   max-width: 800px;
 `;
 
-export default function Results({ test }: Props) {
+export default function Results({ test, runTest }: Props) {
   console.log("RESULTS", test);
   return (
     <Wrapper>
@@ -58,7 +59,7 @@ export default function Results({ test }: Props) {
               </>
             ))}
         </Card>
-        {test.judgement?.status === "failed" && (
+        {test.judgement?.status && (
           <Card size="small" title="Feedback" bordered={false}>
             {test.judgement.text
               ?.split("\n")
@@ -71,7 +72,7 @@ export default function Results({ test }: Props) {
               ))}
           </Card>
         )}
-        <Button type="primary" onClick={() => null}>
+        <Button type="primary" onClick={runTest}>
           {test.judgement?.status !== null ? "Run again" : "Run"}
         </Button>
       </Space>

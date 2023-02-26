@@ -52,7 +52,6 @@ BOT: Hello, your personal shopping assistant. What can I help you with?
 USER: I want to buy a laptop.
 BOT: Great! What kind of laptop are you looking for? Do you have a budget in mind?
 USER: $1000 or so
-BOT: Great, a laptop in the $1000 range. What size screen do you prefer?
 `;
 const requirements2 = `
 - the bot should be opinionated and always recommend a product. It should recommend sizes or budgets instead of just asking. 
@@ -78,7 +77,6 @@ BOT: Sure, I can help you find the right smartphone for you. What is your budget
 USER: $1000
 BOT: Great! With a budget of $1000, you have a lot of options. What are the most important features that you're looking for in a smartphone? For example, do you want a phone with a large screen, a high-quality camera, or long battery life?
 USER: I  want a smaller screen and very long battery life, ideally iphone
-BOT: I see. For a smaller screen size, the iPhone 13 mini would be a great option. It has a 5.4-inch display and a very long battery life. However, it's a bit expensive at $699. Would you like me to recommend some more affordable options, or do you want to consider the iPhone 13 mini?
 `;
 
 const requirements4 = `
@@ -103,12 +101,6 @@ BOT: Understood. That gives us a lot of options to work with. Are you looking fo
 USER: understated design
 BOT: Understood. For an understated design, I would recommend keyboards with a black, white, or grey color scheme, and without any flashy RGB lighting. Some popular brands that offer minimalist mechanical keyboards are Filco, Varmilo, and Leopold. Would you like me to suggest some specific models from these brands for you to consider?
 USER: yes please
-BOT: Sure, here are some popular minimalist mechanical keyboards that I recommend:
-
-Filco Majestouch 2: This keyboard has a very clean and understated design with a solid build quality. It is available in various switch types and sizes.
-Varmilo VA87M: This keyboard also has a minimalist design, but it features a few unique customization options such as different keycap sets and color options. It is available in various switch types and sizes as well.
-Leopold FC750R: This keyboard is also known for its minimalist design and excellent build quality. It is available in various switch types and sizes.
-Do any of these options sound interesting to you? Or would you like me to suggest some other brands or models?
 `;
 
 const requirements5 = `
