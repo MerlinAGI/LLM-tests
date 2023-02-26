@@ -16,9 +16,11 @@ export default async function handler(
   res: NextApiResponse<Data>
 ) {
   try {
-    const prompt = JSON.parse(req.body).prompt;
+    console.log("incoming:", req.body, typeof req.body);
+    const data = typeof req.body === "string" ? JSON.parse(req.body) : req.body;
+    const prompt = data.prompt;
     const completion = await openai.createCompletion({
-      model: "chat-davinci-003-alpha",
+      model: "text-davinci-003",
       prompt: prompt,
       max_tokens: 100,
       stop: ["\n", "\\", " Human:", " AI:"],
@@ -28,6 +30,6 @@ export default async function handler(
     res.status(200).json({ text: completion.data.choices[0].text });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ text: error ? "Error" : "No error" });
+    res.status(500).json({ text: error ? `Error: ${error}` : "No error" });
   }
 }
