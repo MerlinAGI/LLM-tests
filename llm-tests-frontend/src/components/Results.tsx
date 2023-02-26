@@ -9,7 +9,7 @@ interface Props {
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  max-width: 500px;
+  max-width: 800px;
 `;
 
 export default function Results({ test }: Props) {
@@ -25,12 +25,7 @@ export default function Results({ test }: Props) {
         ) : (
           <Alert message="Status: not run" />
         )}
-        <Card
-          size="small"
-          title="History"
-          bordered={false}
-          style={{ width: 300 }}
-        >
+        <Card size="small" title="History" bordered={false}>
           {test.values.history
             .split("\n")
             .slice(1)
@@ -41,12 +36,7 @@ export default function Results({ test }: Props) {
               </>
             ))}
         </Card>
-        <Card
-          size="small"
-          title="Requirements"
-          bordered={false}
-          style={{ width: 300 }}
-        >
+        <Card size="small" title="Requirements" bordered={false}>
           {test.requirements
             .split("\n")
             .slice(1)
@@ -57,12 +47,7 @@ export default function Results({ test }: Props) {
               </>
             ))}
         </Card>
-        <Card
-          size="small"
-          title="Completion"
-          bordered={false}
-          style={{ width: 300 }}
-        >
+        <Card size="small" title="Completion" bordered={false}>
           {test.completion
             ?.split("\n")
             .slice(1)
@@ -74,13 +59,16 @@ export default function Results({ test }: Props) {
             ))}
         </Card>
         {test.judgement?.status === "failed" && (
-          <Card
-            size="small"
-            title="Feedback"
-            bordered={false}
-            style={{ width: 300 }}
-          >
-            {test.judgement.text}
+          <Card size="small" title="Feedback" bordered={false}>
+            {test.judgement.text
+              ?.split("\n")
+              .slice(1)
+              .map((line) => (
+                <>
+                  {line}
+                  <br />
+                </>
+              ))}
           </Card>
         )}
         <Button type="primary" onClick={() => null}>
