@@ -40,9 +40,15 @@ interface Props {
   tests: Test[];
   setActiveTest: (testIndex: number | null) => void;
   runAllTests: () => void;
+  setState: (state: string) => void;
 }
 
-export default function Sidebar({ tests, setActiveTest, runAllTests }: Props) {
+export default function Sidebar({
+  tests,
+  setActiveTest,
+  runAllTests,
+  setState,
+}: Props) {
   return (
     <Bar>
       <Layout>
@@ -69,7 +75,8 @@ export default function Sidebar({ tests, setActiveTest, runAllTests }: Props) {
         </Content>
         <Footer style={footerStyle}>
           <Space direction="vertical">
-            <Button onClick={() => setActiveTest(null)}>New test</Button>
+            <Button onClick={() => setState("prompt")}>Prompt</Button>
+            <Button onClick={() => setState("newTest")}>New test</Button>
             <Button type="primary" onClick={runAllTests}>
               Run all tests
             </Button>
