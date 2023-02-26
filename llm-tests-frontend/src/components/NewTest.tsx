@@ -6,8 +6,6 @@ import { css, Global } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useState } from "react";
 import type { Test } from "../pages/index";
-import { Button } from "antd";
-import "antd/dist/reset.css";
 
 const TextArea = styled.textarea`
   height: 250px;
@@ -55,7 +53,7 @@ export default function NewTest({ addTest }: Props) {
       <br />
       <TextArea value={example} onChange={(e) => setExample(e.target.value)} />
       <br />
-      <Button
+      <button
         type="primary"
         onClick={() => {
           addTest({
@@ -71,7 +69,7 @@ export default function NewTest({ addTest }: Props) {
         }}
       >
         Add test
-      </Button>
+      </button>
     </Wrapper>
   );
 }

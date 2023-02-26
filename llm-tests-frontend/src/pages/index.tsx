@@ -3,14 +3,14 @@ import Image from "next/image";
 import { Inter } from "next/font/google";
 import { css, Global } from "@emotion/react";
 import styled from "@emotion/styled";
-// import NewTest from "@/components/NewTest";
-// import Results from "@/components/Results";
+import NewTest from "@/components/NewTest";
+import Results from "@/components/Results";
 import { useState } from "react";
 import Sidebar from "@/components/Sidebar";
-import { Layout, Space } from "antd";
-import "antd/dist/reset.css";
+// import { Layout, Space } from "antd";
+// import "antd/dist/reset.css";
 
-const { Header, Footer, Sider, Content } = Layout;
+// const { Header, Footer, Sider, Content } = Layout;
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -100,14 +100,16 @@ export default function Home() {
   console.log(tests);
   console.log(activeTest);
   return (
-    <p>Hello</p>
-    // <Space direction="vertical" style={{ width: "100%" }} size={[0, 48]}>
-    //   <Layout>
-    //     <Header style={headerStyle}>Header</Header>
-    //     <Content style={contentStyle}>Content</Content>
-    //     <Footer style={footerStyle}>Footer</Footer>
-    //   </Layout>
-    // </Space>
+    <Wrapper>
+      <Sidebar tests={tests} setActiveTest={setActiveTest} />
+      {activeTest !== undefined ? (
+        <Results test={tests[activeTest]} />
+      ) : (
+        <NewTest
+          addTest={(test: Test) => setTests((prev) => [...prev, test])}
+        />
+      )}
+    </Wrapper>
   );
 }
 
