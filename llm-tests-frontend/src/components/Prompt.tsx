@@ -23,6 +23,7 @@ interface Props {
 }
 
 export default function Prompt({ prompt, newPrompt, setPrompt }: Props) {
+  console.log("PROMPT", prompt, newPrompt);
   return (
     <Wrapper>
       <h1>Prompt</h1>

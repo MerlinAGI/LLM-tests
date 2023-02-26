@@ -26,31 +26,33 @@ export default async function handler(
     const feedback = data.feedback;
     const promptToSend = `
 You are given a prompt and feedback to this prompt. Please update the prompt to fix the issues raised in the feedback.
-The prompt reaches until the "-------------------------" sequence.
+The prompt reaches until the "########################" sequence.
 PROMPT:
 ${prompt}
--------------------------
+########################
 FEEDBACK:
 ${feedback}
 
 NEW PROMPT:
 `;
-
-    const generation = await generate.generate({
-      deploymentName: "merlin-gen-tests",
-      requests: [{ inputValues: { input: promptToSend } }],
-    });
-    // const completion = await openai.createCompletion({
-    //   model: "text-davinci-003",
-    //   prompt: promptToSend,
-    //   max_tokens: 500,
-    //   // stop: ["\n", "\\", " Human:", " AI:"],
-    //   temperature: 0,
+    console.log("formatted prompt:", promptToSend);
+    // const generation = await generate.generate({
+    //   deploymentName: "merlin-gen-tests",
+    //   requests: [{ inputValues: { input: promptToSend } }],
     // });
-
+    const completion = await openai.createCompletion({
+      model: "text-davinci-003",
+      prompt: promptToSend,
+      max_tokens: 500,
+      // stop: ["\n", "\\", " Human:", " AI:"],
+      temperature: 0,
+    });
+    //const text = generation.body.results[0].data.completions[0].text;
+    const text = completion.data.choices[0].text;
+    console.log("fix completion:", text);
     res
       .status(200)
-      .json({ text: generation.body.results[0].data.completions[0].text });
+      .json({ text: text});
   } catch (error) {
     console.log(error);
     res.status(500).json({ text: error ? "Error" : "No error" });

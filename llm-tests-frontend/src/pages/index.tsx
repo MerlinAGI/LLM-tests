@@ -104,7 +104,7 @@ const runTest = async (test: Test, updateTest: (newTest: Test) => void) => {
 };
 
 
-const fixPrompt = async (prompt: string, feedback: string) => {
+const fixPrompt = async (test: Test, feedback: string) => {
   const improvements_start = feedback.indexOf("IMPROVEMENTS:");
   if(improvements_start === -1){
     console.error("Improvements not found in feedback");
@@ -112,17 +112,23 @@ const fixPrompt = async (prompt: string, feedback: string) => {
   }
   const improvements = feedback.substring(improvements_start + "IMPROVEMENTS:".length);
 
+  const formattedPrompt = test.prompt.text.replace(
+    "{{history}}",
+    test.values.history
+  );
+
   const res = await fetch("/api/fix_prompt", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      prompt: prompt,
+      prompt: test.prompt.text,
       feedback: improvements,
     }),
   });
   const newPrompt = (await res.json()).text;
+  console.log("new prompt:", newPrompt);
   return newPrompt;
 };
 
@@ -157,8 +163,9 @@ export default function Home() {
   };
 
   const addFeedbackToPrompt = async (feedback: string) => {
-    const newPrompt = await fixPrompt(prompt, feedback);
-    setPrompt(newPrompt);
+    if(activeTest === undefined) return;
+    const newPrompt = await fixPrompt(tests[activeTest], feedback);
+    setNewPrompt(newPrompt);
   };
 
   const componentToShow = () => {
