@@ -62,7 +62,7 @@ export default function Results({ test, runTest, addFeedbackToPrompt }: Props) {
         {test.judgement?.text && (
           <Button
             type="default"
-            onClick={() => addFeedbackToPrompt(test.judgement.text)}
+            onClick={() => addFeedbackToPrompt(test.judgement!.text)}
           >
             Add feedback to prompt
           </Button>

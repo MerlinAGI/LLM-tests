@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "@emotion/styled";
-import type { Test } from "../pages/index";
 import { Layout, Button, Space, Alert } from "antd";
 import { shopingAssistentPrompt } from "@/utils/data";
+import { Test } from "@/utils/types";
 
 const { Footer, Content } = Layout;
 
@@ -72,9 +72,8 @@ export default function Sidebar({
                   ? "error"
                   : "info"
               }
-              status={test.judgement?.status}
               onClick={() => setActiveTest(i)}
-              showIcon={test.judgement?.status !== "not run"}
+              showIcon={true}
             ></Entry>
           ))}
         </Content>
