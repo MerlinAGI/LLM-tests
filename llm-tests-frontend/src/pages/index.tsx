@@ -73,7 +73,8 @@ const runTest = async (test: Test) => {
   const formattedPrompt = test.prompt.text.replace(
     /{{(\w+)}}/g, // regex to match {{variable}}
     (_, variable) => {
-      return test.values[variable.strip()];
+      console.log("replace:", _, variable);
+      return test.values[variable.trim()];
     }
   );
   // call next.js api /get_output
@@ -104,7 +105,7 @@ export default function Home() {
   return (
     <Layout>
       <Sider style={siderStyle}>
-        <Sidebar tests={tests} setActiveTest={setActiveTest} />
+        <Sidebar tests={tests} setActiveTest={setActiveTest} runAllTests={runAllTests} />
       </Sider>
       <Content style={contentStyle}>
         {activeTest !== undefined ? (

@@ -40,9 +40,10 @@ const footerStyle: React.CSSProperties = {
 interface Props {
   tests: Test[];
   setActiveTest: (testIndex: number) => void;
+  runAllTests: () => void;
 }
 
-export default function Sidebar({ tests, setActiveTest }: Props) {
+export default function Sidebar({ tests, setActiveTest, runAllTests }: Props) {
   return (
     <Bar>
       <Layout>
@@ -59,7 +60,7 @@ export default function Sidebar({ tests, setActiveTest }: Props) {
         <Footer style={footerStyle}>
           <Space direction="vertical">
             <Button>New test</Button>
-            <Button>Run all tests</Button>
+            <Button onClick={runAllTests}>Run all tests</Button>
           </Space>
         </Footer>
       </Layout>
