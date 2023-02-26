@@ -5,6 +5,7 @@ import { Button, Alert, Card, Space } from "antd";
 interface Props {
   test: Test;
   runTest: () => void;
+  addFeedbackToPrompt: (feedback: string) => void;
 }
 
 const Wrapper = styled.div`
@@ -13,7 +14,23 @@ const Wrapper = styled.div`
   max-width: 500px;
 `;
 
+<<<<<<< Updated upstream
 export default function Results({ test, runTest }: Props) {
+=======
+const formatText = (text?: string) => {
+  return text
+    ?.split("\n")
+    .slice(1)
+    .map((line: string) => (
+      <>
+        {line}
+        <br />
+      </>
+    ));
+};
+
+export default function Results({ test, runTest, addFeedbackToPrompt }: Props) {
+>>>>>>> Stashed changes
   console.log("RESULTS", test);
   return (
     <Wrapper>
@@ -92,6 +109,14 @@ export default function Results({ test, runTest }: Props) {
               </>
             ))}
           </Card>
+        )}
+        {test.judgement?.text && (
+          <Button
+            type="default"
+            onClick={() => addFeedbackToPrompt(test.judgement.text)}
+          >
+            Add feedback to prompt
+          </Button>
         )}
         <Button type="primary" onClick={runTest}>
           {test.judgement?.status !== null ? "Run again" : "Run"}
