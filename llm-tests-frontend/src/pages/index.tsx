@@ -121,6 +121,7 @@ export default function Home() {
 
   // TODO: implement
   const addFeedbackToPrompt = (feedback: string) => {
+    console.log("click");
     return null;
   };
 

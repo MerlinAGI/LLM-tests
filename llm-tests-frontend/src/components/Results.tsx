@@ -11,12 +11,9 @@ interface Props {
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  max-width: 500px;
+  max-width: 800px;
 `;
 
-<<<<<<< Updated upstream
-export default function Results({ test, runTest }: Props) {
-=======
 const formatText = (text?: string) => {
   return text
     ?.split("\n")
@@ -30,84 +27,36 @@ const formatText = (text?: string) => {
 };
 
 export default function Results({ test, runTest, addFeedbackToPrompt }: Props) {
->>>>>>> Stashed changes
   console.log("RESULTS", test);
   return (
     <Wrapper>
       <h1>{test.name}</h1>
       <Space direction="vertical">
         {test.judgement?.status === "passed" ? (
-          <Alert message="Status: test passed : I have been a good bot 😊" type="success" />
+          <Alert
+            message="Status: test passed : I have been a good bot 😊"
+            type="success"
+          />
         ) : test.judgement?.status === "failed" ? (
-          <Alert message="Status: test failed : I have been a bad bot 😔" type="error" />
+          <Alert
+            message="Status: test failed : I have been a bad bot 😔"
+            type="error"
+          />
         ) : (
           <Alert message="Status: not run" />
         )}
-        <Card
-          size="small"
-          title="History"
-          bordered={false}
-          style={{}}
-        >
-          {test.values.history
-            .split("\n")
-            .slice(1)
-            .map((line) => (
-              <>
-                {line}
-                <br />
-              </>
-            ))}
+        <Card size="small" title="History" bordered={false}>
+          {formatText(test.values.history)}
         </Card>
-        <Card
-          size="small"
-          title="Completion"
-          bordered={false}
-          style={{}}
-        >
-          {test.completion
-            ?.split("\n")
-            .slice(1)
-            .map((line) => (
-              <>
-                {line}
-                <br />
-              </>
-            ))}
+        <Card size="small" title="Completion" bordered={false}>
+          {formatText(test.completion)}
         </Card>
-        <Card
-          size="small"
-          title="Requirements"
-          bordered={false}
-          style={{}}
-        >
-          {test.requirements
-            .split("\n")
-            .slice(1)
-            .map((line) => (
-              <>
-                {line}
-                <br />
-              </>
-            ))}
+        <Card size="small" title="Requirements" bordered={false}>
+          {formatText(test.requirements)}
         </Card>
-       
         {test.judgement?.status && (
-          <Card
-            size="small"
-            title="Feedback"
-            bordered={false}
-            style={{}}
-          >
-            {test.judgement.text
-            ?.split("\n")
-            .slice(1)
-            .map((line) => (
-              <>
-                {line}
-                <br />
-              </>
-            ))}
+          <Card size="small" title="Feedback" bordered={false}>
+            {formatText(test.judgement.text)}
           </Card>
         )}
         {test.judgement?.text && (
