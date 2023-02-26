@@ -8,6 +8,7 @@ import { useState } from "react";
 import { Input, Button } from "antd";
 import { Test } from "@/utils/types";
 import { shopingAssistentPrompt } from "@/utils/data";
+import ReactDiffViewer from 'react-diff-viewer'
 
 const { TextArea } = Input;
 
@@ -17,19 +18,25 @@ const Wrapper = styled.div`
 
 interface Props {
   prompt: string;
+  newPrompt: string;
   setPrompt: (prompt: string) => void;
 }
 
-export default function Prompt({ prompt, setPrompt }: Props) {
-  // const [prompt, setPrompt] = useState<string>("");
+export default function Prompt({ prompt, newPrompt, setPrompt }: Props) {
   return (
     <Wrapper>
       <h1>Prompt</h1>
-      <TextArea
+      {prompt === newPrompt && <TextArea
         autoSize={true}
         value={prompt}
         onChange={(e) => setPrompt(e.target.value)}
-      />
+      />}
+      {prompt !== newPrompt && <ReactDiffViewer
+          oldValue={prompt}
+          newValue={newPrompt}
+          splitView={true}
+        />
+      }
     </Wrapper>
   );
 }

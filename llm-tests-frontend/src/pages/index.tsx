@@ -87,7 +87,6 @@ const runTest = async (test: Test, updateTest: (newTest: Test) => void) => {
     }),
   });
   const judgementText = (await res2.json()).text;
-  console.log("judgementText:", judgementText);
   let status = "error" as "error" | "failed" | "passed";
   if (judgementText.includes("SATISFY ALL REQUIREMENTS: NO")) {
     status = "failed";
@@ -104,10 +103,34 @@ const runTest = async (test: Test, updateTest: (newTest: Test) => void) => {
   });
 };
 
+
+const fixPrompt = async (prompt: string, feedback: string) => {
+  const improvements_start = feedback.indexOf("IMPROVEMENTS:");
+  if(improvements_start === -1){
+    console.error("Improvements not found in feedback");
+    return prompt;
+  }
+  const improvements = feedback.substring(improvements_start + "IMPROVEMENTS:".length);
+
+  const res = await fetch("/api/fix_prompt", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      prompt: prompt,
+      feedback: improvements,
+    }),
+  });
+  const newPrompt = (await res.json()).text;
+  return newPrompt;
+};
+
 export default function Home() {
   const [tests, setTests] = useState<Test[]>(initialTests);
   const [activeTest, setActiveTest] = useState<number | undefined>();
   const [prompt, setPrompt] = useState<string>(shopingAssistentPrompt.text);
+  const [newPrompt, setNewPrompt] = useState<string>(shopingAssistentPrompt.text);
   const [state, setState] = useState<string>("prompt");
   console.log(tests);
   console.log("activeTest:", activeTest);
@@ -133,17 +156,16 @@ export default function Home() {
     });
   };
 
-  // TODO: implement
-  const addFeedbackToPrompt = (feedback: string) => {
-    console.log("click");
-    return null;
+  const addFeedbackToPrompt = async (feedback: string) => {
+    const newPrompt = await fixPrompt(prompt, feedback);
+    setPrompt(newPrompt);
   };
 
   const componentToShow = () => {
     console.log("state:", state);
     console.log("activeTest:", activeTest);
     if (state === "prompt") {
-      return <Prompt prompt={prompt} setPrompt={setPrompt} />;
+      return <Prompt prompt={prompt} setPrompt={setPrompt} newPrompt={newPrompt}/>;
     }
     if (state === "newTest") {
       return (
