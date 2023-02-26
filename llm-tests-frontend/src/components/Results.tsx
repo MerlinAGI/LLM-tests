@@ -13,6 +13,18 @@ const Wrapper = styled.div`
   max-width: 800px;
 `;
 
+const formatText = (text?: string) => {
+  return text
+    ?.split("\n")
+    .slice(1)
+    .map((line: string) => (
+      <>
+        {line}
+        <br />
+      </>
+    ));
+};
+
 export default function Results({ test, runTest }: Props) {
   console.log("RESULTS", test);
   return (
@@ -27,49 +39,17 @@ export default function Results({ test, runTest }: Props) {
           <Alert message="Status: not run" />
         )}
         <Card size="small" title="History" bordered={false}>
-          {test.values.history
-            .split("\n")
-            .slice(1)
-            .map((line) => (
-              <>
-                {line}
-                <br />
-              </>
-            ))}
+          {formatText(test.values.history)}
         </Card>
         <Card size="small" title="Requirements" bordered={false}>
-          {test.requirements
-            .split("\n")
-            .slice(1)
-            .map((line) => (
-              <>
-                {line}
-                <br />
-              </>
-            ))}
+          {formatText(test.requirements)}
         </Card>
         <Card size="small" title="Completion" bordered={false}>
-          {test.completion
-            ?.split("\n")
-            .slice(1)
-            .map((line) => (
-              <>
-                {line}
-                <br />
-              </>
-            ))}
+          {formatText(test.completion)}
         </Card>
         {test.judgement?.status && (
           <Card size="small" title="Feedback" bordered={false}>
-            {test.judgement.text
-              ?.split("\n")
-              .slice(1)
-              .map((line) => (
-                <>
-                  {line}
-                  <br />
-                </>
-              ))}
+            {formatText(test.judgement.text)}
           </Card>
         )}
         <Button type="primary" onClick={runTest}>
