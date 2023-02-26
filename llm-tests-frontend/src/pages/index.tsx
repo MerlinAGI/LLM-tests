@@ -7,7 +7,11 @@ import Sidebar from "@/components/Sidebar";
 import { Layout, Space } from "antd";
 import { Test } from "@/utils/types";
 import Prompt from "@/components/Prompt";
-import { initialTests, judgementPrompt, shopingAssistentPrompt } from "@/utils/data";
+import {
+  initialTests,
+  judgementPrompt,
+  shopingAssistentPrompt,
+} from "@/utils/data";
 
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -27,15 +31,14 @@ const footerStyle: React.CSSProperties = {
   backgroundColor: "#7dbcea",
 };
 
-
 const runTest = async (test: Test, updateTest: (newTest: Test) => void) => {
   // replace {{variable}} with the value of the variable
   const formattedPrompt = test.prompt.text.replace(
     /{{(\w+)}}/g, // regex to match {{variable}}
     (_, variable) => {
       let val = test.values[variable.trim()];
-      if(variable.trim() === "history") {
-        if (!val.endsWith("\nBOT:")){
+      if (variable.trim() === "history") {
+        if (!val.endsWith("\nBOT:")) {
           val += "\nBOT: ";
         }
       }
@@ -54,7 +57,7 @@ const runTest = async (test: Test, updateTest: (newTest: Test) => void) => {
   });
   const completion = (await res.json()).text;
   console.log("completion:", completion);
-  updateTest({...test, completion });
+  updateTest({ ...test, completion });
 
   const newHistory = test.values.history + "\nBOT: " + completion;
   // judge the test
@@ -69,7 +72,10 @@ const runTest = async (test: Test, updateTest: (newTest: Test) => void) => {
       return replaceDict[variable.trim()];
     }
   );
-  console.log("judgementPromptFormatted:", JSON.stringify(judgementPromptFormatted));
+  console.log(
+    "judgementPromptFormatted:",
+    JSON.stringify(judgementPromptFormatted)
+  );
   const res2 = await fetch("/api/judgement", {
     method: "POST",
     headers: {
@@ -93,7 +99,7 @@ const runTest = async (test: Test, updateTest: (newTest: Test) => void) => {
     judgement: {
       status: status,
       text: judgementText,
-    }
+    },
   });
 };
 
@@ -105,7 +111,7 @@ export default function Home() {
   console.log(tests);
   console.log("activeTest:", activeTest);
 
-  const updateTest = (idx:number) => (newTest: Test) => {
+  const updateTest = (idx: number) => (newTest: Test) => {
     setTests((prev) => {
       const newTests = [...prev];
       newTests[idx] = newTest;
@@ -113,15 +119,11 @@ export default function Home() {
     });
   };
 
-
   const componentToShow = () => {
     console.log("state:", state);
     console.log("activeTest:", activeTest);
     if (state === "prompt") {
       return <Prompt prompt={prompt} setPrompt={setPrompt} />;
-    } else if (activeTest !== undefined) {
-      console.log(tests[activeTest]);
-      return <Results test={tests[activeTest]} />;
     }
     if (state === "newTest") {
       return (
@@ -130,11 +132,15 @@ export default function Home() {
         />
       );
     }
+    if (activeTest !== undefined) {
+      console.log(tests[activeTest]);
+      return <Results test={tests[activeTest]} />;
+    }
   };
 
   const runAllTests = () => {
     tests.forEach((t, i) => runTest(t, updateTest(i)));
-  }
+  };
 
   return (
     <Layout>
