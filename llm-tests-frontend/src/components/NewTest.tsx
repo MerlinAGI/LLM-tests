@@ -5,7 +5,8 @@ import { Inter } from "next/font/google";
 import { css, Global } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useState } from "react";
-import type { Test } from "../pages/index";
+import { Test } from "@/utils/types";
+import { shopingAssistentPrompt } from "@/utils/data";
 
 const TextArea = styled.textarea`
   height: 250px;
@@ -36,7 +37,7 @@ interface Props {
 export default function NewTest({ addTest }: Props) {
   const [name, setName] = useState<string>("");
   const [history, setHistory] = useState<string>("");
-  const [example, setExample] = useState<string>("");
+  const [requirements, setRequirements] = useState<string>("");
   return (
     <Wrapper>
       <h1>New test</h1>
@@ -49,23 +50,22 @@ export default function NewTest({ addTest }: Props) {
       <br />
       <TextArea value={history} onChange={(e) => setHistory(e.target.value)} />
       <br />
-      <b>Enter the expected output</b>
+      <b>Enter the requirements</b>
       <br />
-      <TextArea value={example} onChange={(e) => setExample(e.target.value)} />
+      <TextArea value={requirements} onChange={(e) => setRequirements(e.target.value)} />
       <br />
       <button
         type="primary"
         onClick={() => {
           addTest({
             name: name,
-            history: history,
-            example: example,
-            output: null,
-            status: null,
+            prompt: shopingAssistentPrompt,
+            values: {history: history},
+            requirements: requirements,
           });
           setName("");
           setHistory("");
-          setExample("");
+          setRequirements("");
         }}
       >
         Add test

@@ -7,6 +7,7 @@ import NewTest from "@/components/NewTest";
 import Results from "@/components/Results";
 import { useState } from "react";
 import Sidebar from "@/components/Sidebar";
+import { Test } from "@/utils/types";
 // import { Layout, Space } from "antd";
 // import "antd/dist/reset.css";
 
@@ -86,13 +87,6 @@ const footerStyle: React.CSSProperties = {
   backgroundColor: "#7dbcea",
 };
 
-export interface Test {
-  name: string;
-  history: string;
-  example: string;
-  output: string | null;
-  status: "passed" | "failed" | null;
-}
 
 export default function Home() {
   const [tests, setTests] = useState<Test[]>([]);
