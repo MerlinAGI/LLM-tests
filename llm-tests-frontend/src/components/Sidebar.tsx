@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
 import type { Test } from "../pages/index";
-import { Layout, Button, Space } from "antd";
+import { Layout, Button, Space, Alert } from "antd";
 
 const { Footer, Content } = Layout;
 
@@ -18,9 +18,8 @@ const BarHeader = styled.div`
   background: #eee;
 `;
 
-const Entry = styled.div`
-  background: #fefefe;
-  border-bottom: 1px solid #ddd;
+const Entry = styled(Alert)`
+  border-radius: 0;
   padding: 12px;
   &:hover {
     cursor: pointer;
@@ -39,7 +38,7 @@ const footerStyle: React.CSSProperties = {
 
 interface Props {
   tests: Test[];
-  setActiveTest: (testIndex: number) => void;
+  setActiveTest: (testIndex: number | null) => void;
   runAllTests: () => void;
 }
 
@@ -52,15 +51,28 @@ export default function Sidebar({ tests, setActiveTest, runAllTests }: Props) {
             <b>Tests</b>
           </BarHeader>
           {tests.map((test, i) => (
-            <Entry key={test.name} onClick={() => setActiveTest(i)}>
-              <b>#{i}</b> {test.name}
-            </Entry>
+            <Entry
+              message={`#${i} ${test.name}`}
+              key={test.name}
+              type={
+                test.judgement.status === "passed"
+                  ? "success"
+                  : test.judgement.status === "failed"
+                  ? "error"
+                  : "info"
+              }
+              status={test.judgement.status}
+              onClick={() => setActiveTest(i)}
+              showIcon
+            ></Entry>
           ))}
         </Content>
         <Footer style={footerStyle}>
           <Space direction="vertical">
-            <Button>New test</Button>
-            <Button onClick={runAllTests}>Run all tests</Button>
+            <Button onClick={() => setActiveTest(null)}>New test</Button>
+            <Button type="primary" onClick={runAllTests}>
+              Run all tests
+            </Button>
           </Space>
         </Footer>
       </Layout>

@@ -13,6 +13,15 @@ const { TextArea } = Input;
 
 const Wrapper = styled.div`
   flex-direction: column;
+  max-width: 500px;
+`;
+
+const InputTitle = styled.div`
+  margin-bottom: 8px;
+`;
+
+const InputWrapper = styled.div`
+  margin-bottom: 16px;
 `;
 
 interface Props {
@@ -26,29 +35,26 @@ export default function NewTest({ addTest }: Props) {
   return (
     <Wrapper>
       <h1>Create a new test</h1>
-      <b>Enter a name</b>
-      <br />
-      <Input value={name} onChange={(e) => setName(e.target.value)} />
-      <br />
-      <br />
-      <b>Enter the chat history</b>
-      <br />
-      <TextArea
-        rows={4}
-        value={history}
-        onChange={(e) => setHistory(e.target.value)}
-      />
-      <br />
-      <br />
-      <b>Enter the requirements</b>
-      <br />
-      <TextArea
-        rows={4}
-        value={requirements}
-        onChange={(e) => setRequirements(e.target.value)}
-      />
-      <br />
-      <br />
+      <InputWrapper>
+        <InputTitle>Name the test</InputTitle>
+        <Input value={name} onChange={(e) => setName(e.target.value)} />
+      </InputWrapper>
+      <InputWrapper>
+        <InputTitle>Enter the chat history</InputTitle>
+        <TextArea
+          rows={4}
+          value={history}
+          onChange={(e) => setHistory(e.target.value)}
+        />
+      </InputWrapper>
+      <InputWrapper>
+        <InputTitle>Enter the requirements</InputTitle>
+        <TextArea
+          rows={4}
+          value={requirements}
+          onChange={(e) => setRequirements(e.target.value)}
+        />
+      </InputWrapper>
       <Button
         type="primary"
         onClick={() => {
@@ -57,6 +63,7 @@ export default function NewTest({ addTest }: Props) {
             prompt: shopingAssistentPrompt,
             values: { history: history },
             requirements: requirements,
+            judgement: { status: "failed" },
           });
           setName("");
           setHistory("");
