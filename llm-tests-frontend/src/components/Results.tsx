@@ -30,7 +30,7 @@ export default function Results({ test, runTest }: Props) {
           size="small"
           title="History"
           bordered={false}
-          style={{ width: 300 }}
+          style={{}}
         >
           {test.values.history
             .split("\n")
@@ -46,7 +46,7 @@ export default function Results({ test, runTest }: Props) {
           size="small"
           title="Requirements"
           bordered={false}
-          style={{ width: 300 }}
+          style={{}}
         >
           {test.requirements
             .split("\n")
@@ -62,7 +62,7 @@ export default function Results({ test, runTest }: Props) {
           size="small"
           title="Completion"
           bordered={false}
-          style={{ width: 300 }}
+          style={{}}
         >
           {test.completion
             ?.split("\n")
@@ -79,9 +79,17 @@ export default function Results({ test, runTest }: Props) {
             size="small"
             title="Feedback"
             bordered={false}
-            style={{ width: 300 }}
+            style={{}}
           >
-            {test.judgement.text}
+            {test.judgement.text
+            ?.split("\n")
+            .slice(1)
+            .map((line) => (
+              <>
+                {line}
+                <br />
+              </>
+            ))}
           </Card>
         )}
         <Button type="primary" onClick={runTest}>
