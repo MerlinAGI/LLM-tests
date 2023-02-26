@@ -21,7 +21,8 @@ export default async function handler(
   res: NextApiResponse<Data>
 ) {
   try {
-    const prompt = JSON.parse(req.body).prompt;
+    const data = typeof req.body === "string" ? JSON.parse(req.body) : req.body;
+    const prompt = data.prompt;
     const promptToSend = `Generate test cases for this prompt where you generate the history and the requirements. The test should check if the AI is a good shopping assistant.
 
     ${prompt}

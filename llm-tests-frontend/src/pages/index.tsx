@@ -55,6 +55,7 @@ const runTest = async (test: Test, updateTest: (newTest: Test) => void) => {
       prompt: formattedPrompt,
     }),
   });
+
   const completion = (await res.json()).text;
   console.log("completion:", completion);
   updateTest({ ...test, completion });
@@ -110,6 +111,19 @@ export default function Home() {
   const [state, setState] = useState<string>("prompt");
   console.log(tests);
   console.log("activeTest:", activeTest);
+  const addGeneratedTests = async () => {
+    const res = await fetch("/api/generate_tests", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        prompt: "prompt",
+      }),
+    });
+    const generatedTests = await res.json();
+    return generatedTests;
+  };
 
   const updateTest = (idx: number) => (newTest: Test) => {
     setTests((prev) => {
@@ -151,8 +165,10 @@ export default function Home() {
             setState("results");
             setActiveTest(i);
           }}
+          setTests={setTests}
           runAllTests={runAllTests}
           setState={setState}
+          addGeneratedTests={addGeneratedTests}
         />
       </Sider>
       <Content style={contentStyle}>{componentToShow()}</Content>
