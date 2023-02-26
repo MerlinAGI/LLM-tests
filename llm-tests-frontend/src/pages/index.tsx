@@ -61,11 +61,49 @@ const siderStyle: React.CSSProperties = {
   height: "100%",
 };
 
+<<<<<<< Updated upstream
+=======
+const footerStyle: React.CSSProperties = {
+  textAlign: "center",
+  color: "#fff",
+  backgroundColor: "#7dbcea",
+};
+
+
+const runTest = async (test: Test) => {
+  // replace {{variable}} with the value of the variable
+  const formattedPrompt = test.prompt.text.replace(
+    /{{(\w+)}}/g, // regex to match {{variable}}
+    (_, variable) => {
+      return test.values[variable.strip()];
+    }
+  );
+  // call next.js api /get_output
+  const res = await fetch("/api/get_output", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      prompt: formattedPrompt,
+    }),
+  });
+  const completion = (await res.json()).text;
+  console.log("completion:", completion);
+  
+};
+
+>>>>>>> Stashed changes
 export default function Home() {
   const [tests, setTests] = useState<Test[]>([]);
   const [activeTest, setActiveTest] = useState<number | undefined>();
   console.log(tests);
   console.log(activeTest);
+
+  const runAllTests = () => {
+    tests.forEach(runTest);
+  }
+
   return (
     <Layout>
       <Sider style={siderStyle}>
