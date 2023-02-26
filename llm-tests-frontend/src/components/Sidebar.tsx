@@ -69,14 +69,28 @@ export default function Sidebar({
               }
               status={test.judgement.status}
               onClick={() => setActiveTest(i)}
-              showIcon
+              showIcon={test.judgement.status !== "not run"}
             ></Entry>
           ))}
         </Content>
         <Footer style={footerStyle}>
           <Space direction="vertical">
-            <Button onClick={() => setState("prompt")}>Prompt</Button>
-            <Button onClick={() => setState("newTest")}>New test</Button>
+            <Button
+              onClick={() => {
+                setState("prompt");
+                setActiveTest(null);
+              }}
+            >
+              Prompt
+            </Button>
+            <Button
+              onClick={() => {
+                setState("newTest");
+                setActiveTest(null);
+              }}
+            >
+              New test
+            </Button>
             <Button type="primary" onClick={runAllTests}>
               Run all tests
             </Button>

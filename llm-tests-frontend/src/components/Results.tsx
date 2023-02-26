@@ -18,11 +18,11 @@ export default function Results({ test }: Props) {
       <h1>Test {test.name}</h1>
       <Space direction="vertical">
         {test.judgement.status === "passed" ? (
-          <Alert message="Test passed" type="success" />
+          <Alert message="Status: test passed" type="success" />
         ) : test.judgement.status === "failed" ? (
-          <Alert message="Test failed" type="error" />
+          <Alert message="Status: test failed" type="error" />
         ) : (
-          <Alert message="Not run" />
+          <Alert message="Status: not run" />
         )}
         <Card
           size="small"
@@ -49,7 +49,7 @@ export default function Results({ test }: Props) {
           {test.completion}
         </Card>
         <Button type="primary" onClick={() => null}>
-          {test.judgement.status ? "Run again" : "Run"}
+          {test.judgement.status !== null ? "Run again" : "Run"}
         </Button>
       </Space>
     </Wrapper>

@@ -63,7 +63,7 @@ export default function NewTest({ addTest }: Props) {
             prompt: shopingAssistentPrompt,
             values: { history: history },
             requirements: requirements,
-            judgement: { status: "failed" },
+            judgement: { status: null },
           });
           setName("");
           setHistory("");
