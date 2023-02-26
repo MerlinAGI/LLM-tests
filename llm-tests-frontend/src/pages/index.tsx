@@ -51,10 +51,7 @@ const runTest = async (test: Test) => {
 
 export default function Home() {
   const [tests, setTests] = useState<Test[]>([]);
-<<<<<<< HEAD
   const [activeTest, setActiveTest] = useState<number | null>(null);
-=======
-  const [activeTest, setActiveTest] = useState<number | undefined>();
   const [prompt, setPrompt] = useState<string>(`INTRO
   Your name is Merlin the shopping assistant, assisting a user to find the right product.
   Your goal is to find out what a user is looking for.
@@ -84,7 +81,6 @@ export default function Home() {
   HISTORY:
   MERLIN: Hello, your personal shopping assistant. What can I help you with?`);
   const [state, setState] = useState<string>("prompt");
->>>>>>> 76549fe (LKJASLKdj)
   console.log(tests);
   console.log(activeTest);
 
