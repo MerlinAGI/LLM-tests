@@ -20,9 +20,9 @@ export default function Results({ test, runTest }: Props) {
       <h1>{test.name}</h1>
       <Space direction="vertical">
         {test.judgement?.status === "passed" ? (
-          <Alert message="Status: test passed" type="success" />
+          <Alert message="Status: test passed : I have been a good bot 😊" type="success" />
         ) : test.judgement?.status === "failed" ? (
-          <Alert message="Status: test failed" type="error" />
+          <Alert message="Status: test failed : I have been a bad bot 😔" type="error" />
         ) : (
           <Alert message="Status: not run" />
         )}
@@ -33,22 +33,6 @@ export default function Results({ test, runTest }: Props) {
           style={{}}
         >
           {test.values.history
-            .split("\n")
-            .slice(1)
-            .map((line) => (
-              <>
-                {line}
-                <br />
-              </>
-            ))}
-        </Card>
-        <Card
-          size="small"
-          title="Requirements"
-          bordered={false}
-          style={{}}
-        >
-          {test.requirements
             .split("\n")
             .slice(1)
             .map((line) => (
@@ -74,6 +58,23 @@ export default function Results({ test, runTest }: Props) {
               </>
             ))}
         </Card>
+        <Card
+          size="small"
+          title="Requirements"
+          bordered={false}
+          style={{}}
+        >
+          {test.requirements
+            .split("\n")
+            .slice(1)
+            .map((line) => (
+              <>
+                {line}
+                <br />
+              </>
+            ))}
+        </Card>
+       
         {test.judgement?.status && (
           <Card
             size="small"
