@@ -61,8 +61,6 @@ const siderStyle: React.CSSProperties = {
   height: "100%",
 };
 
-<<<<<<< Updated upstream
-=======
 const footerStyle: React.CSSProperties = {
   textAlign: "center",
   color: "#fff",
@@ -93,7 +91,6 @@ const runTest = async (test: Test) => {
   
 };
 
->>>>>>> Stashed changes
 export default function Home() {
   const [tests, setTests] = useState<Test[]>([]);
   const [activeTest, setActiveTest] = useState<number | undefined>();
