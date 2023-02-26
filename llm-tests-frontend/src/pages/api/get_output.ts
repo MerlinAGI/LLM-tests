@@ -35,7 +35,7 @@ export default async function handler(
       deploymentName: "merlin2",
       requests: [{ inputValues: { input: prompt } }],
     });
-    console.log("completion:", completion.data.choices);
+    //console.log("completion:", completion.data.choices);
 
     res
       .status(200)
