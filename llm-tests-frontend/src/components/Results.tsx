@@ -5,6 +5,7 @@ import { Button, Alert, Card, Space } from "antd";
 interface Props {
   test: Test;
   runTest: () => void;
+  addFeedbackToPrompt: (feedback: string) => void;
 }
 
 const Wrapper = styled.div`
@@ -25,7 +26,7 @@ const formatText = (text?: string) => {
     ));
 };
 
-export default function Results({ test, runTest }: Props) {
+export default function Results({ test, runTest, addFeedbackToPrompt }: Props) {
   console.log("RESULTS", test);
   return (
     <Wrapper>
@@ -57,6 +58,14 @@ export default function Results({ test, runTest }: Props) {
           <Card size="small" title="Feedback" bordered={false}>
             {formatText(test.judgement.text)}
           </Card>
+        )}
+        {test.judgement?.text && (
+          <Button
+            type="default"
+            onClick={() => addFeedbackToPrompt(test.judgement.text)}
+          >
+            Add feedback to prompt
+          </Button>
         )}
         <Button type="primary" onClick={runTest}>
           {test.judgement?.status !== null ? "Run again" : "Run"}

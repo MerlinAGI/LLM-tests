@@ -133,6 +133,12 @@ export default function Home() {
     });
   };
 
+  // TODO: implement
+  const addFeedbackToPrompt = (feedback: string) => {
+    console.log("click");
+    return null;
+  };
+
   const componentToShow = () => {
     console.log("state:", state);
     console.log("activeTest:", activeTest);
@@ -147,8 +153,15 @@ export default function Home() {
       );
     }
     if (activeTest !== undefined) {
-      const runTestFunc = () => runTest(tests[activeTest], updateTest(activeTest));
-      return <Results test={tests[activeTest]} runTest={runTestFunc}/>;
+      const runTestFunc = () =>
+        runTest(tests[activeTest], updateTest(activeTest));
+      return (
+        <Results
+          test={tests[activeTest]}
+          runTest={runTestFunc}
+          addFeedbackToPrompt={addFeedbackToPrompt}
+        />
+      );
     }
   };
 
