@@ -18,7 +18,7 @@ export default async function handler(
   try {
     const prompt = JSON.parse(req.body).prompt;
     const completion = await openai.createCompletion({
-      model: "chat-davinci-003-alpha",
+      model: "text-davinci-003",
       prompt: prompt,
       max_tokens: 100,
       stop: ["JUDGEMENT", "#"],

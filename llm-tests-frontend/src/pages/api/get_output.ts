@@ -20,7 +20,7 @@ export default async function handler(
     const data = typeof req.body === "string" ? JSON.parse(req.body) : req.body;
     const prompt = data.prompt;
     const completion = await openai.createCompletion({
-      model: "chat-davinci-003-alpha",
+      model: "text-davinci-003",
       prompt: prompt,
       max_tokens: 100,
       stop: ["\n", "\\", " Human:", " AI:"],
