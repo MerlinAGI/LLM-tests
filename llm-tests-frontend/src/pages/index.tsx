@@ -91,7 +91,7 @@ export default function Home() {
   const componentToShow = () => {
     if (state === "prompt") {
       return <Prompt prompt={prompt} setPrompt={setPrompt} />;
-    } else if (activeTest !== undefined) {
+    } else if (activeTest !== null) {
       return <Results test={tests[activeTest]} />;
     }
     if (state === "newTest") {
