@@ -16,7 +16,7 @@ export default function Results({ test }: Props) {
   console.log("RESULTS", test);
   return (
     <Wrapper>
-      <h1>Test {test.name}</h1>
+      <h1>{test.name}</h1>
       <Space direction="vertical">
         {test.judgement?.status === "passed" ? (
           <Alert message="Status: test passed" type="success" />
@@ -31,7 +31,15 @@ export default function Results({ test }: Props) {
           bordered={false}
           style={{ width: 300 }}
         >
-          {test.values.history}
+          {test.values.history
+            .split("\n")
+            .slice(1)
+            .map((line) => (
+              <>
+                {line}
+                <br />
+              </>
+            ))}
         </Card>
         <Card
           size="small"
@@ -39,7 +47,15 @@ export default function Results({ test }: Props) {
           bordered={false}
           style={{ width: 300 }}
         >
-          {test.requirements}
+          {test.requirements
+            .split("\n")
+            .slice(1)
+            .map((line) => (
+              <>
+                {line}
+                <br />
+              </>
+            ))}
         </Card>
         <Card
           size="small"
@@ -47,7 +63,15 @@ export default function Results({ test }: Props) {
           bordered={false}
           style={{ width: 300 }}
         >
-          {test.completion}
+          {test.completion
+            ?.split("\n")
+            .slice(1)
+            .map((line) => (
+              <>
+                {line}
+                <br />
+              </>
+            ))}
         </Card>
         {test.judgement?.status === "failed" && (
           <Card
