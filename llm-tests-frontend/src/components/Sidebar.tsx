@@ -1,19 +1,41 @@
 import React from "react";
 import styled from "@emotion/styled";
 import type { Test } from "../pages/index";
+import { Layout, Button, Space } from "antd";
+
+const { Footer, Content } = Layout;
 
 const Bar = styled.div`
-  width: 150px;
-  height: 100%;
-  border: 1px solid red;
-  margin-right: 16px;
+  min-height: 80vh;
+  background: #fefefe;
+  border: 1px solid #ddd;
+  border-radius: 8px 0 0 8px;
+`;
+
+const BarHeader = styled.div`
+  padding: 16px;
+  border-bottom: 1px solid #ddd;
+  background: #eee;
 `;
 
 const Entry = styled.div`
-  background: #eee;
-  border: 1px solid #ddd;
-  padding: 8px;
+  background: #fefefe;
+  border-bottom: 1px solid #ddd;
+  padding: 12px;
+  &:hover {
+    cursor: pointer;
+  }
 `;
+
+const contentStyle: React.CSSProperties = {
+  height: "80vh",
+  //   borderBottom: "1px solid #ddd",
+};
+
+const footerStyle: React.CSSProperties = {
+  textAlign: "center",
+  background: "#fefefe",
+};
 
 interface Props {
   tests: Test[];
@@ -22,16 +44,25 @@ interface Props {
 
 export default function Sidebar({ tests, setActiveTest }: Props) {
   return (
-    <div>
-      <Bar>
-        <b>Tests</b>
-        <br />
-        {tests.map((test, i) => (
-          <Entry key={test.name} onClick={() => setActiveTest(i)}>
-            {test.name}
-          </Entry>
-        ))}
-      </Bar>
-    </div>
+    <Bar>
+      <Layout>
+        <Content style={contentStyle}>
+          <BarHeader>
+            <b>Tests</b>
+          </BarHeader>
+          {tests.map((test, i) => (
+            <Entry key={test.name} onClick={() => setActiveTest(i)}>
+              <b>#{i}</b> {test.name}
+            </Entry>
+          ))}
+        </Content>
+        <Footer style={footerStyle}>
+          <Space direction="vertical">
+            <Button>New test</Button>
+            <Button>Run all tests</Button>
+          </Space>
+        </Footer>
+      </Layout>
+    </Bar>
   );
 }
