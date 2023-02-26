@@ -49,6 +49,16 @@ export default function Results({ test }: Props) {
         >
           {test.completion}
         </Card>
+        {test.judgement?.status === "failed" && (
+          <Card
+            size="small"
+            title="Feedback"
+            bordered={false}
+            style={{ width: 300 }}
+          >
+            {test.judgement.text}
+          </Card>
+        )}
         <Button type="primary" onClick={() => null}>
           {test.judgement?.status !== null ? "Run again" : "Run"}
         </Button>
